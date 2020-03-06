@@ -13,11 +13,13 @@
 import requests
 from bs4 import BeautifulSoup
 import pprint
-res = requests.get('https://news.ycombinator.com/news') # think of this as a browser without a window
+res = requests.get('https://news.ycombinator.com/news') 
+res2 = requests.get('https://news.ycombinator.com/news?p=2')# think of this as a browser without a window
 
 # print(res.text) # prints the entire html file
 
 soup_object = BeautifulSoup(res.text, 'html.parser') 
+soup_object2 = BeautifulSoup(res2.text,'html.parser')
 
 #print(soup_object.find()) # grabs only the body of the html file
 
@@ -26,6 +28,16 @@ soup_object = BeautifulSoup(res.text, 'html.parser')
 links = soup_object.select('.storylink')
 
 subtext = soup_object.select('.subtext')
+
+links2 = soup_object2.select('.storylink')
+
+subtext2 = soup_object2.select('.subtext')
+
+
+multiple_links = links+links2 
+
+multiple_subtext = subtext + subtext2
+
 #print(votes[0])
 
 # we can specify which object to show in []
@@ -47,7 +59,7 @@ def create_custom_hn(links, subtext):
         hn.append({'title': title,'link': href,'votes': points})
   return sort_stories_by_votes(hn)
 
-pprint.pprint(create_custom_hn(links, subtext))
+pprint.pprint(create_custom_hn(multiple_links, multiple_subtext))
 
 
  
